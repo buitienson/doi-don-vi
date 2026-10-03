@@ -1,0 +1,729 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Siêu Đổi Đơn Vị</title>
+<meta name="description" content="Học và luyện đổi đơn vị đo độ dài, khối lượng, diện tích - Toán lớp 5.">
+<meta name="theme-color" content="#2f6fed">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f4f7ff; --card:#ffffff; --ink:#1d2540; --muted:#6a7392; --line:#dfe5f5;
+  --pri:#2f6fed; --pri-soft:#e6eeff; --ok:#16a34a; --ok-soft:#dcfce7; --bad:#dc2626; --bad-soft:#fee2e2;
+  --sun:#f59e0b; --sun-soft:#fef3c7; --len:#2f6fed; --mass:#9333ea; --area:#059669;
+  --shadow:0 4px 14px rgba(30,50,120,.08);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0f1424; --card:#1a2138; --ink:#eef1fb; --muted:#9aa3c0; --line:#2c3554;
+    --pri:#6b9bff; --pri-soft:#22305a; --ok:#4ade80; --ok-soft:#14361f; --bad:#f87171; --bad-soft:#3d1717;
+    --sun:#fbbf24; --sun-soft:#3a2e10; --len:#6b9bff; --mass:#c084fc; --area:#34d399;
+    --shadow:0 4px 14px rgba(0,0,0,.3);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0f1424; --card:#1a2138; --ink:#eef1fb; --muted:#9aa3c0; --line:#2c3554;
+  --pri:#6b9bff; --pri-soft:#22305a; --ok:#4ade80; --ok-soft:#14361f; --bad:#f87171; --bad-soft:#3d1717;
+  --sun:#fbbf24; --sun-soft:#3a2e10; --len:#6b9bff; --mass:#c084fc; --area:#34d399;
+  --shadow:0 4px 14px rgba(0,0,0,.3);
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:"Baloo 2",system-ui,-apple-system,sans-serif;font-size:18px;line-height:1.45;-webkit-tap-highlight-color:transparent}
+.wrap{max-width:760px;margin:0 auto;padding:0 16px 48px}
+header.top{position:sticky;top:0;z-index:5;background:var(--bg);display:flex;align-items:center;gap:10px;padding:12px 16px;max-width:760px;margin:0 auto}
+.logo{font-weight:800;font-size:22px;color:var(--pri);cursor:pointer;flex:1;white-space:nowrap}
+.logo span{color:var(--sun)}
+.coin{background:var(--sun-soft);color:var(--ink);border-radius:999px;padding:2px 12px;font-weight:700}
+.iconbtn{border:0;background:var(--card);color:var(--ink);border-radius:12px;width:40px;height:40px;font-size:18px;box-shadow:var(--shadow);cursor:pointer}
+h1{font-size:28px;line-height:1.2;margin:8px 0 4px}
+h2{font-size:22px;margin:22px 0 8px}
+h3{font-size:19px;margin:14px 0 6px}
+p{margin:6px 0}
+.muted{color:var(--muted)}
+.card{background:var(--card);border-radius:18px;padding:16px;box-shadow:var(--shadow);margin:12px 0}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+@media (max-width:520px){.grid{grid-template-columns:1fr}}
+.big{display:flex;gap:12px;align-items:center;border:0;text-align:left;font:inherit;color:inherit;cursor:pointer;width:100%;background:var(--card);border-radius:18px;padding:16px;box-shadow:var(--shadow);transition:transform .1s}
+.big:active{transform:scale(.98)}
+.big .ic{font-size:34px;width:56px;height:56px;border-radius:16px;display:grid;place-items:center;flex:none}
+.big b{display:block;font-size:20px}
+.big small{color:var(--muted);font-size:15px;display:block;line-height:1.3}
+.btn{border:0;font:inherit;font-weight:700;border-radius:14px;padding:10px 18px;cursor:pointer;background:var(--pri);color:#fff;font-size:18px}
+.btn.ghost{background:var(--pri-soft);color:var(--pri)}
+.btn.sun{background:var(--sun);color:#3a2600}
+.btn:disabled{opacity:.45;cursor:default}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{border:2px solid var(--line);background:var(--card);color:var(--ink);font:inherit;font-weight:600;border-radius:999px;padding:6px 14px;cursor:pointer}
+.chip.on{border-color:var(--pri);background:var(--pri-soft);color:var(--pri)}
+.tabs{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px}
+.tab{border:0;font:inherit;font-weight:700;padding:8px 14px;border-radius:12px;background:var(--card);color:var(--muted);cursor:pointer;white-space:nowrap;box-shadow:var(--shadow)}
+.tab.on{background:var(--pri);color:#fff}
+/* ladder */
+.ladder{display:flex;align-items:center;flex-wrap:wrap;gap:4px;margin:10px 0}
+.lu{border:2px solid var(--line);background:var(--card);color:var(--ink);font:inherit;font-weight:700;border-radius:12px;min-width:52px;padding:6px 8px;cursor:pointer}
+.lu.sel{background:var(--pri);border-color:var(--pri);color:#fff}
+.lu.mid{background:var(--pri-soft);border-color:var(--pri)}
+.lx{font-size:13px;color:var(--muted);font-weight:700}
+.lx.mid{color:var(--pri)}
+.ladout{background:var(--pri-soft);border-radius:14px;padding:10px 14px;min-height:48px}
+/* unit table */
+.utab{width:100%;border-collapse:collapse;margin:10px 0;table-layout:fixed;font-size:15px}
+.utab th{background:var(--pri-soft);color:var(--pri);padding:4px 2px;border:1px solid var(--line);font-size:14px}
+.utab th.tg{background:var(--pri);color:#fff}
+.utab td{border:1px solid var(--line);text-align:center;padding:6px 0;font-size:20px;font-weight:700;position:relative;letter-spacing:1px}
+.utab td .z{color:var(--sun)}
+.utab td .cm{color:var(--bad);font-size:26px;position:absolute;right:-6px;bottom:-4px;z-index:2}
+input.num{font:inherit;font-weight:700;font-size:20px;border:2px solid var(--line);border-radius:12px;padding:4px 8px;width:7.5em;background:var(--bg);color:var(--ink);text-align:center}
+input.num:focus{outline:none;border-color:var(--pri)}
+input.num.sm{width:4.5em}
+select{font:inherit;font-weight:700;border:2px solid var(--line);border-radius:12px;padding:5px 8px;background:var(--bg);color:var(--ink)}
+.tip{border-left:5px solid var(--sun);background:var(--sun-soft);border-radius:10px;padding:8px 12px;margin:8px 0}
+.ex{border-bottom:1px dashed var(--line);padding:8px 0}
+.ex:last-child{border-bottom:0}
+.ex .q{font-weight:700}
+.ex .s{color:var(--muted);font-size:16px}
+.trap{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:8px 0}
+.trap div{border-radius:10px;padding:6px 10px;font-weight:600}
+.trap .no{background:var(--bad-soft)} .trap .yes{background:var(--ok-soft)}
+/* quiz */
+.qhead{display:flex;align-items:center;gap:10px;margin:6px 0}
+.dots{display:flex;gap:6px;flex-wrap:wrap;flex:1}
+.dot{width:34px;height:34px;border-radius:50%;border:2px solid var(--line);background:var(--card);font:inherit;font-weight:700;color:var(--muted);cursor:pointer;padding:0}
+.dot.done{background:var(--pri-soft);border-color:var(--pri);color:var(--pri)}
+.dot.cur{background:var(--pri);border-color:var(--pri);color:#fff}
+.dot.ok{background:var(--ok);border-color:var(--ok);color:#fff}
+.dot.bad{background:var(--bad);border-color:var(--bad);color:#fff}
+.qcard{background:var(--card);border-radius:20px;padding:18px;box-shadow:var(--shadow);margin:12px 0;border:3px solid transparent}
+.qcard.ok{border-color:var(--ok)} .qcard.bad{border-color:var(--bad)}
+.qno{font-size:15px;font-weight:700;color:var(--muted);display:flex;gap:8px;align-items:center}
+.tag{border-radius:999px;padding:0 10px;font-size:13px;color:#fff}
+.qtext{font-size:21px;font-weight:600;margin:8px 0 12px}
+.qtext .cmp{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;font-size:23px;margin-top:8px}
+.qtext .box{display:inline-grid;place-items:center;width:48px;height:44px;border:2px dashed var(--pri);border-radius:10px;color:var(--pri)}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media (max-width:420px){.opts.long{grid-template-columns:1fr}}
+.opt{border:2px solid var(--line);background:var(--bg);color:var(--ink);font:inherit;font-weight:700;font-size:19px;border-radius:14px;padding:10px;cursor:pointer;text-align:left;display:flex;gap:8px;align-items:center}
+.opt .L{flex:none;width:30px;height:30px;border-radius:50%;background:var(--card);display:grid;place-items:center;font-size:15px;border:2px solid var(--line)}
+.opt.sel{border-color:var(--pri);background:var(--pri-soft)}
+.opt.sel .L{background:var(--pri);color:#fff;border-color:var(--pri)}
+.opt.right{border-color:var(--ok);background:var(--ok-soft)}
+.opt.right .L{background:var(--ok);color:#fff;border-color:var(--ok)}
+.opt.wrong{border-color:var(--bad);background:var(--bad-soft)}
+.opt.wrong .L{background:var(--bad);color:#fff;border-color:var(--bad)}
+.opt:disabled{cursor:default}
+input.num.right{border-color:var(--ok);background:var(--ok-soft)}
+input.num.wrong{border-color:var(--bad);background:var(--bad-soft)}
+.fillline{font-size:22px;font-weight:600;line-height:2.2}
+.verdict{font-weight:800;margin-top:12px}
+.verdict.ok{color:var(--ok)} .verdict.bad{color:var(--bad)}
+.explain{background:var(--pri-soft);border-radius:12px;padding:10px 14px;margin-top:8px;font-size:17px}
+.explain b{color:var(--pri)}
+.navq{display:flex;gap:10px;justify-content:space-between;margin-top:8px}
+.score{text-align:center;padding:20px 12px}
+.score .n{font-size:56px;font-weight:800;line-height:1}
+.stars{font-size:40px;letter-spacing:4px}
+.fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;font-size:.72em;line-height:1.05;margin:0 2px}
+.fr span:first-child{border-bottom:2px solid currentColor;padding:0 2px}
+.pill{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:50;background:var(--sun);color:#3a2600;border:0;font:inherit;font-weight:800;font-size:20px;padding:16px 26px;border-radius:999px;box-shadow:0 10px 30px rgba(0,0,0,.3);cursor:pointer;display:none}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:8px 16px;border-radius:12px;font-weight:700;opacity:0;transition:opacity .3s;pointer-events:none;z-index:40}
+.toast.on{opacity:1}
+.confetti{position:fixed;top:-40px;font-size:28px;pointer-events:none;z-index:60;animation:fall 2.4s linear forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(540deg)}}
+.hide{display:none!important}
+/* iPad / màn rộng */
+@media (min-width:768px){
+  body{font-size:20px}
+  .wrap,header.top{max-width:1000px;padding-left:28px;padding-right:28px}
+  .grid{grid-template-columns:repeat(2,1fr);gap:16px}
+  .qcard{padding:24px}
+  .qtext{font-size:24px}
+  .opt{font-size:21px;padding:14px}
+  .fillline{font-size:25px}
+  input.num{font-size:23px}
+  #quizArea{max-width:820px;margin:0 auto}
+}
+@media (min-width:1100px){
+  .review{display:grid;grid-template-columns:1fr 1fr;gap:0 16px;align-items:start}
+}
+html{-webkit-text-size-adjust:100%}
+body{overflow-x:hidden;padding-bottom:env(safe-area-inset-bottom)}
+header.top{padding-top:max(12px,env(safe-area-inset-top))}
+footer{text-align:center;color:var(--muted);font-size:14px;margin-top:30px}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="logo" onclick="go('home')">Siêu Đổi <span>Đơn Vị</span></div>
+  <div class="coin" title="Xu tích lũy">🪙 <span id="coin">0</span></div>
+  <button class="iconbtn" id="themeBtn" title="Đổi giao diện sáng/tối" onclick="toggleTheme()">🌓</button>
+</header>
+<main class="wrap" id="app"></main>
+<button class="pill" id="pill" onclick="location.reload()">✨ Có bản mới - chạm để cập nhật</button>
+<div class="toast" id="toast"></div>
+
+<script>
+const APP_VERSION = "dev";
+
+/* ================= tiện ích số ================= */
+const rint=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const P10=k=>10n**BigInt(k);
+const NS=' ';
+// n/10^d -> chuỗi kiểu Việt Nam: dấu phẩy thập phân, nhóm 3 chữ số khi từ 5 chữ số
+function fmtNum(n,d){
+  n=BigInt(n); let neg=n<0n; if(neg)n=-n;
+  if(d<0){n=n*P10(-d);d=0}
+  let s=n.toString().padStart(d+1,'0');
+  let ip=s.slice(0,s.length-d), fp=d?s.slice(s.length-d).replace(/0+$/,''):'';
+  if(ip.length>=5) ip=ip.replace(/\B(?=(\d{3})+(?!\d))/g,NS);
+  return (neg?'-':'')+ip+(fp?','+fp:'');
+}
+const decs=s=>s.includes(',')?s.split(',')[1].length:0;
+const intd=s=>s.split(',')[0].replace(/\D/g,'').length;
+const okNums=(arr,maxDec)=>arr.every(s=>decs(s)<=maxDec&&intd(s)<=8);
+const A=(n,d)=>({n:String(n),d});
+function parseAns(str){
+  let s=String(str??'').trim().replace(/[\s  ]/g,'');
+  if(!s||!/^[\d.,]+$/.test(s)) return [];
+  const out=[];
+  const mk=t=>{ if(!/^\d*\.?\d*$/.test(t)||t==='.'||t==='') return; const [a,b='']=t.split('.'); out.push({n:BigInt((a||'0')+b),d:b.length}); };
+  if(s.includes(',')) mk(s.replace(/\./g,'').replace(',','.'));
+  else if(s.includes('.')){
+    if(/^\d{1,3}(\.\d{3})+$/.test(s)) mk(s.replace(/\./g,''));   // 105.010 -> 105010
+    if(s.split('.').length===2) mk(s);                            // 1.5 -> 1,5
+  } else mk(s);
+  return out;
+}
+const eqNum=(a,b)=>BigInt(a.n)*P10(b.d)===BigInt(b.n)*P10(a.d);
+const checkFill=(str,ans)=>parseAns(str).some(c=>eqNum(c,ans));
+const showAns=a=>fmtNum(BigInt(a.n),a.d);
+const frac=(a,b)=>`<span class="fr"><span>${a}</span><span>${b}</span></span>`;
+
+/* ================= dữ liệu đơn vị ================= */
+const T={
+  len:{name:'Độ dài',icon:'📏',color:'var(--len)',w:1,units:['km','hm','dam','m','dm','cm','mm']},
+  mass:{name:'Khối lượng',icon:'⚖️',color:'var(--mass)',w:1,units:['tấn','tạ','yến','kg','hg','dag','g']},
+  area:{name:'Diện tích',icon:'🟩',color:'var(--area)',w:2,units:['km²','ha','dam²','m²','dm²','cm²','mm²']}
+};
+const E=(t,i)=>(6-i)*T[t].w;
+const U=(t,i)=>T[t].units[i];
+const POOL={
+  len:{1:[0,3,4,5,6],2:[0,1,2,3,4,5,6],3:[0,1,2,3,4,5,6]},
+  mass:{1:[0,1,2,3,6],2:[0,1,2,3,6],3:[0,1,2,3,4,5,6]},
+  area:{1:[0,1,3,4,5],2:[0,1,3,4,5],3:[0,1,2,3,4,5,6]}
+};
+const LEVELS={1:'Dễ',2:'Vừa',3:'Khó'};
+
+/* số "đẹp" kiểu sách giáo khoa: hay có chữ số 0 ở giữa (105, 7304, 9050) */
+function niceInt(maxLen){
+  const len=rint(1,maxLen); let s=String(rint(1,9));
+  for(let k=1;k<len;k++) s+=Math.random()<.35?'0':String(rint(1,9));
+  return BigInt(s);
+}
+function niceBelow(R){ // 1..R-1
+  const max=R-1n; const L=max.toString().length;
+  for(let k=0;k<50;k++){const v=niceInt(L); if(v>=1n&&v<=max) return v;}
+  return 1n;
+}
+
+/* ================= giải thích ================= */
+function stepWord(t){return T[t].w===2?'100':'10'}
+function explainConv(t,i,j,a,b){
+  const steps=Math.abs(i-j), k=Math.abs(E(t,i)-E(t,j)), F=fmtNum(P10(k),0), down=i<j;
+  const one = down? `1 ${U(t,i)} = ${F} ${U(t,j)}` : `1 ${U(t,i)} = ${fmtNum(1n,k)} ${U(t,j)}`;
+  return `${one}.<br>Từ <b>${U(t,i)}</b> sang <b>${U(t,j)}</b> là ${down?'đổi ra đơn vị bé hơn':'đổi ra đơn vị lớn hơn'}: cách ${steps} bậc, mỗi bậc ${stepWord(t)} lần`+
+    (T[t].w===2?` (mỗi bậc ứng với 2 chữ số)`:``)+
+    `.<br>→ ${down?'Nhân':'Chia'} cho ${F}, tức là dời dấu phẩy sang <b>${down?'phải':'trái'} ${k} chữ số</b>.<br>Kết quả: <b>${a} ${U(t,i)} = ${b} ${U(t,j)}</b>`;
+}
+
+/* ================= tạo câu hỏi ================= */
+// q: {kind:'mcq'|'fill', topic, text, opts, correct, parts, ans, explain}
+function mcqFrom(q,correctStr,wrongs){
+  const uniq=[...new Set(wrongs.filter(w=>w&&w!==correctStr))].slice(0,3);
+  const opts=shuffle([correctStr,...uniq]);
+  return {...q,kind:'mcq',opts,correct:opts.indexOf(correctStr)};
+}
+function shiftWrongs(base,e,t,unit){
+  const w=T[t].w, out=[];
+  const sh=w===2?[1,-1,2,-2]:[1,-1,2,-2];
+  for(const s of shuffle(sh)){const v=fmtNum(base,e+s); if(decs(v)<=5&&intd(v)<=10) out.push(`${v} ${unit}`)}
+  return out;
+}
+function genSimple(t,L,mode){
+  const maxDec=L===1?2:3;
+  for(let k=0;k<400;k++){
+    const pool=POOL[t][L], i=pick(pool), j=pick(pool); if(i===j) continue;
+    if(L===1&&Math.abs(i-j)>3) continue;
+    const ei=E(t,i),ej=E(t,j),lo=Math.min(ei,ej),diff=Math.abs(ei-ej);
+    const base=niceInt(L===1?2:L===2?4:5)*P10(lo+rint(0,diff));
+    const a=fmtNum(base,ei), b=fmtNum(base,ej);
+    if(!okNums([a,b],maxDec)) continue;
+    const q={topic:t,text:`${a} ${U(t,i)} = <span class="box">?</span> ${U(t,j)}`,explain:explainConv(t,i,j,a,b),key:a+U(t,i)+U(t,j)};
+    if(useMcq(mode)) return mcqFrom({...q,text:`Số thích hợp điền vào chỗ trống:<br>${a} ${U(t,i)} = …… ${U(t,j)}`},`${b} ${U(t,j)}`,shiftWrongs(base,ej,t,U(t,j)));
+    return {...q,kind:'fill',parts:[`${a} ${U(t,i)} = `,0,` ${U(t,j)}`],ans:[A(base,ej)]};
+  }
+}
+function pairs(t,L){const p=POOL[t][L];const k=rint(0,p.length-2);const g=(L>1&&Math.random()<.4&&k+2<p.length)?2:1;return [p[k],p[k+g]]}
+function genMixed(t,L,mode){
+  for(let k=0;k<400;k++){
+    const [h,l]=pairs(t,L), eh=E(t,h), el=E(t,l), R=P10(eh-el);
+    const a=BigInt(rint(1,L===1?9:30));
+    const trap=L>1&&Math.random()<.25;
+    const b=trap? R+niceBelow(R*2n) : niceBelow(R);
+    const base=a*P10(eh)+b*P10(el);
+    let tg=Math.random()<.5?l:h; if(L===3&&Math.random()<.3) tg=pick(POOL[t][3]);
+    const et=E(t,tg);
+    const X=fmtNum(a*P10(eh),et), Y=fmtNum(b*P10(el),et), res=fmtNum(base,et);
+    if(!okNums([X,Y,res],3)) continue;
+    const left=`${a} ${U(t,h)} ${fmtNum(b,0)} ${U(t,l)}`;
+    let ex=`${a} ${U(t,h)} = ${X} ${U(t,tg)}<br>${fmtNum(b,0)} ${U(t,l)} = ${Y} ${U(t,tg)}<br>→ ${X} + ${Y} = <b>${res} ${U(t,tg)}</b>`;
+    if(Y.startsWith('0,0')) ex+=`<div class="tip">Chú ý: ${fmtNum(b,0)} ${U(t,l)} = ${Y} ${U(t,tg)} - phải viết thêm chữ số 0 ngay sau dấu phẩy.</div>`;
+    if(trap) ex+=`<div class="tip">Bẫy: ${fmtNum(b,0)} ${U(t,l)} đã nhiều hơn 1 ${U(t,h)} nên phải cộng dồn, không ghép chữ số.</div>`;
+    const q={topic:t,explain:ex,key:left+U(t,tg)};
+    if(useMcq(mode)){
+      const w=shiftWrongs(base,et,t,U(t,tg));
+      const naive=String(a)+String(b); w.unshift(`${fmtNum(BigInt(naive),0)} ${U(t,tg)}`);
+      return mcqFrom({...q,text:`Số thích hợp điền vào chỗ trống:<br>${left} = …… ${U(t,tg)}`},`${res} ${U(t,tg)}`,w);
+    }
+    return {...q,kind:'fill',text:'Điền số thích hợp vào chỗ trống:',parts:[`${left} = `,0,` ${U(t,tg)}`],ans:[A(base,et)]};
+  }
+}
+function genToMixed(t,L,mode){
+  for(let k=0;k<400;k++){
+    const [h,l]=pairs(t,L), eh=E(t,h), el=E(t,l), r=eh-el, R=P10(r);
+    const a=BigInt(rint(1,L===1?9:99)), b=niceBelow(R);
+    const base=a*P10(eh)+b*P10(el);
+    const from=Math.random()<.6?l:h, ef=E(t,from);
+    const val=fmtNum(base,ef); if(!okNums([val],3)) continue;
+    const ex= from===l
+      ? `1 ${U(t,h)} = ${fmtNum(R,0)} ${U(t,l)}.<br>${val} ${U(t,l)} = ${fmtNum(a*R,0)} ${U(t,l)} + ${fmtNum(b,0)} ${U(t,l)} = <b>${a} ${U(t,h)} ${fmtNum(b,0)} ${U(t,l)}</b>`
+      : `Phần nguyên ${a} → ${a} ${U(t,h)}.<br>Phần sau dấu phẩy: ${fmtNum(b,r)} ${U(t,h)} = ${fmtNum(b,0)} ${U(t,l)} (vì 1 ${U(t,h)} = ${fmtNum(R,0)} ${U(t,l)}).<br>→ <b>${val} ${U(t,h)} = ${a} ${U(t,h)} ${fmtNum(b,0)} ${U(t,l)}</b>`;
+    const q={topic:t,explain:ex,key:val+U(t,from)+U(t,h)};
+    if(useMcq(mode)){
+      const S=a*R+b, str=S.toString(), wr=[];
+      for(const s of [r-1,r+1,r-2,r+2]){ if(s<1||s>=str.length+1) continue; const hh=S/P10(s), ll=S%P10(s); wr.push(`${fmtNum(hh,0)} ${U(t,h)} ${fmtNum(ll,0)} ${U(t,l)}`) }
+      wr.push(`${a} ${U(t,h)} ${fmtNum(b*10n,0)} ${U(t,l)}`);
+      if(a!==b) wr.push(`${fmtNum(b,0)} ${U(t,h)} ${a} ${U(t,l)}`);
+      wr.push(`${a+1n} ${U(t,h)} ${fmtNum(b,0)} ${U(t,l)}`);
+      if(R-b!==b) wr.push(`${a} ${U(t,h)} ${fmtNum(R-b,0)} ${U(t,l)}`);
+      if(b+1n<R) wr.push(`${a} ${U(t,h)} ${fmtNum(b+1n,0)} ${U(t,l)}`);
+      if(a>1n) wr.push(`${a-1n} ${U(t,h)} ${fmtNum(b,0)} ${U(t,l)}`);
+      return mcqFrom({...q,text:`${val} ${U(t,from)} = ?`},`${a} ${U(t,h)} ${fmtNum(b,0)} ${U(t,l)}`,wr.filter(x=>!/^0 /.test(x)));
+    }
+    return {...q,kind:'fill',text:'Điền số thích hợp vào chỗ trống:',parts:[`${val} ${U(t,from)} = `,0,` ${U(t,h)} `,1,` ${U(t,l)}`],ans:[A(a,0),A(b,0)]};
+  }
+}
+function genCompare(t,L){
+  for(let k=0;k<400;k++){
+    const [h,l]=pairs(t,L), eh=E(t,h), el=E(t,l), R=P10(eh-el);
+    const a=BigInt(rint(1,L===1?9:20)), b=niceBelow(R);
+    const S=a*R+b; let Y; const r=Math.random();
+    if(r<.3) Y=S;
+    else if(r<.55){Y=BigInt(String(a)+String(b)); if(Y===S) Y=S*10n}
+    else if(r<.8){const s=S.toString().split('');const ix=[];for(let q=0;q<s.length-1;q++) if(s[q]!==s[q+1]&&!(q===0&&s[1]==='0')) ix.push(q); if(!ix.length) continue; const q=pick(ix); [s[q],s[q+1]]=[s[q+1],s[q]]; Y=BigInt(s.join(''))}
+    else {Y=S+(Math.random()<.5?1n:-1n)*P10(rint(0,S.toString().length-2)); if(Y<=0n) continue}
+    const mixed=`${a} ${U(t,h)} ${fmtNum(b,0)} ${U(t,l)}`, single=`${fmtNum(Y,0)} ${U(t,l)}`;
+    const flip=Math.random()<.4;
+    let sign=S>Y?'>':S<Y?'<':'='; if(flip&&sign!=='=') sign=sign==='>'?'<':'>';
+    const L1=flip?single:mixed, R1=flip?mixed:single;
+    const ex=`Đổi về cùng đơn vị: ${mixed} = ${fmtNum(S,0)} ${U(t,l)}.<br>So sánh ${flip?fmtNum(Y,0)+' và '+fmtNum(S,0):fmtNum(S,0)+' và '+fmtNum(Y,0)} → <b>${L1} ${sign} ${R1}</b>`;
+    const opts=['<','>','=','Không so sánh được'];
+    return {topic:t,kind:'mcq',cmp:true,text:`Dấu thích hợp điền vào ô trống:<div class="cmp"><span>${L1}</span><span class="box">?</span><span>${R1}</span></div>`,opts,correct:opts.indexOf(sign),explain:ex,key:L1+R1};
+  }
+}
+/* bài toán có lời văn */
+const W={
+  square(mode){
+    if(Math.random()<.55){
+      const s=rint(2,9), P=4*s, ha=Math.random()<.5;
+      const c=ha?s*s*100:s*s, u=ha?'ha':'km²';
+      const wr=ha?[s*s,s*s*10,s*s*1000,P*100]:[P,2*s,P*P,s*4*2];
+      return mcqFrom({topic:'area',text:`Một khu đất hình vuông có chu vi là ${P} km. Diện tích khu đất đó là bao nhiêu ${u}?`,
+        explain:`Cạnh hình vuông = chu vi : 4 = ${P} : 4 = ${s} km.<br>Diện tích = cạnh × cạnh = ${s} × ${s} = ${s*s} km²`+(ha?`.<br>1 km² = 100 ha → ${s*s} km² = <b>${fmtNum(BigInt(c),0)} ha</b>`:` → <b>${s*s} km²</b>`),key:'sq'+P+u},
+        `${fmtNum(BigInt(c),0)} ${u}`,wr.map(v=>`${fmtNum(BigInt(v),0)} ${u}`));
+    }
+    const s=pick([100,200,250,300,400,500,600]), P=4*s, m2=BigInt(s*s);
+    return mcqFrom({topic:'area',text:`Một mảnh vườn hình vuông có chu vi ${fmtNum(BigInt(P),0)} m. Diện tích mảnh vườn là bao nhiêu héc-ta?`,
+      explain:`Cạnh = ${fmtNum(BigInt(P),0)} : 4 = ${s} m.<br>Diện tích = ${s} × ${s} = ${fmtNum(m2,0)} m².<br>1 ha = 10${NS}000 m² → chia cho 10${NS}000 (dời dấu phẩy sang trái 4 chữ số): <b>${fmtNum(m2,4)} ha</b>`,key:'sqm'+s},
+      `${fmtNum(m2,4)} ha`,[fmtNum(m2,3),fmtNum(m2,5),fmtNum(m2,2),fmtNum(m2,6)].map(v=>v+' ha'));
+  },
+  rectFrac(){
+    const F=[[1,2],[1,4],[3,4],[1,5],[2,5],[3,5],[4,5],[3,10],[7,10],[9,10]];
+    for(let k=0;k<200;k++){
+      let f1=pick(F),f2=pick(F); if(f1===f2) continue;
+      if(f1[0]/f1[1]<f2[0]/f2[1]) [f1,f2]=[f2,f1];
+      const num=f1[0]*f2[0], den=f1[1]*f2[1]; if((num*100)%den) continue;
+      const ha=num*100/den;
+      return mcqFrom({topic:'area',text:`Một khu đất hình chữ nhật có chiều dài ${frac(f1[0],f1[1])} km, chiều rộng ${frac(f2[0],f2[1])} km. Diện tích khu đất đó là bao nhiêu héc-ta?`,
+        explain:`Diện tích = dài × rộng = ${frac(f1[0],f1[1])} × ${frac(f2[0],f2[1])} = ${frac(num,den)} km².<br>1 km² = 100 ha → ${frac(num,den)} × 100 = <b>${ha} ha</b>`,key:'rf'+f1+f2},
+        `${ha} ha`,[fmtNum(BigInt(ha),1),fmtNum(BigInt(ha*10),0),fmtNum(BigInt(ha*2),0),fmtNum(BigInt(ha*100),0)].map(v=>v+' ha'));
+    }
+  },
+  rectM(mode){
+    for(let k=0;k<100;k++){
+      const Lm=pick([200,250,300,400,500,800]), Wm=pick([100,125,150,200,250]); if(Wm>=Lm) continue;
+      const m2=BigInt(Lm*Wm), r=fmtNum(m2,4); if(decs(r)>3) continue;
+      const q={topic:'area',explain:`Diện tích = ${Lm} × ${Wm} = ${fmtNum(m2,0)} m².<br>1 ha = 10${NS}000 m² → <b>${fmtNum(m2,0)} m² = ${r} ha</b>`,key:'rm'+Lm+Wm};
+      const text=`Một cánh đồng hình chữ nhật dài ${Lm} m, rộng ${Wm} m. Diện tích cánh đồng là bao nhiêu héc-ta?`;
+      if(useMcq(mode)) return mcqFrom({...q,text},`${r} ha`,[fmtNum(m2,3),fmtNum(m2,5),fmtNum(m2,2),fmtNum(m2,0)].map(v=>v+' ha'));
+      return {...q,kind:'fill',text,parts:['Diện tích = ',0,' ha'],ans:[A(m2,4)]};
+    }
+  },
+  truck(mode){
+    const a=rint(2,9), b=rint(1,18)*50, tot=a*1000+b, c=rint(4,tot/50-4)*50, rem=BigInt(tot-c);
+    const q={topic:'mass',explain:`${a} tấn ${b} kg = ${fmtNum(BigInt(tot),0)} kg.<br>Còn lại: ${fmtNum(BigInt(tot),0)} - ${fmtNum(BigInt(c),0)} = ${fmtNum(rem,0)} kg.<br>1 tạ = 100 kg → <b>${fmtNum(rem,0)} kg = ${fmtNum(rem,2)} tạ</b>`,key:'tr'+a+b+c};
+    const text=`Một xe tải chở ${a} tấn ${b} kg gạo. Người ta đã dỡ xuống ${fmtNum(BigInt(c),0)} kg. Trên xe còn lại bao nhiêu tạ gạo?`;
+    if(useMcq(mode)) return mcqFrom({...q,text},`${fmtNum(rem,2)} tạ`,[fmtNum(rem,1),fmtNum(rem,3),fmtNum(rem,0),fmtNum(BigInt(tot+c),2)].map(v=>v+' tạ'));
+    return {...q,kind:'fill',text,parts:['Còn lại ',0,' tạ'],ans:[A(rem,2)]};
+  },
+  road(mode){
+    const a=rint(3,25), b=rint(1,19)*50, tot=a*1000+b, c=rint(5,tot/50-5)*50, rem=BigInt(tot-c);
+    const q={topic:'len',explain:`${a} km ${b} m = ${fmtNum(BigInt(tot),0)} m.<br>Còn lại: ${fmtNum(BigInt(tot),0)} - ${fmtNum(BigInt(c),0)} = ${fmtNum(rem,0)} m.<br>1 km = 1${NS}000 m → <b>${fmtNum(rem,0)} m = ${fmtNum(rem,3)} km</b>`,key:'rd'+a+b+c};
+    const text=`Quãng đường từ nhà Lan đến công viên dài ${a} km ${b} m. Lan đã đi được ${fmtNum(BigInt(c),0)} m. Lan còn phải đi bao nhiêu ki-lô-mét nữa?`;
+    if(useMcq(mode)) return mcqFrom({...q,text},`${fmtNum(rem,3)} km`,[fmtNum(rem,2),fmtNum(rem,4),fmtNum(rem,1),fmtNum(BigInt(tot+c),3)].map(v=>v+' km'));
+    return {...q,kind:'fill',text,parts:['Còn phải đi ',0,' km'],ans:[A(rem,3)]};
+  },
+  candy(){
+    const b=rint(3,8), a=rint(1,b-1), m=rint(2,6), r=(b-a)*m, tot=b*m;
+    const wr=[r*b,a*m,r+a,tot+m,tot*2,tot+b].map(String);
+    return mcqFrom({topic:'mix',text:`Minh có một số cái kẹo. Minh chia cho các bạn ${frac(a,b)} số kẹo đó thì còn lại ${r} cái. Hỏi lúc đầu Minh có mấy cái kẹo?`,
+      explain:`Số kẹo còn lại ứng với 1 - ${frac(a,b)} = ${frac(b-a,b)} số kẹo.<br>${frac(b-a,b)} số kẹo là ${r} cái → ${frac(1,b)} số kẹo là ${r} : ${b-a} = ${m} cái.<br>Lúc đầu Minh có ${m} × ${b} = <b>${tot} cái kẹo</b>`,key:'cd'+a+b+m},
+      `${tot} cái kẹo`,wr.map(v=>v+' cái kẹo'));
+  }
+};
+const WORDS={len:['road'],mass:['truck'],area:['square','rectFrac','rectM'],mix:['road','truck','square','rectFrac','rectM','candy']};
+function useMcq(mode){return mode==='mcq'?true:mode==='fill'?false:Math.random()<.5}
+function genQ(t,L,mode){
+  const topic=t==='mix'?pick(['len','mass','area']):t;
+  const types=L===1?['simple','simple','simple','mixed','tomixed']:L===2?['simple','mixed','mixed','tomixed','cmp','word']:['simple','mixed','tomixed','cmp','cmp','word','word'];
+  const ty=pick(types);
+  if(ty==='simple') return genSimple(topic,L,mode);
+  if(ty==='mixed') return genMixed(topic,L,mode);
+  if(ty==='tomixed') return genToMixed(topic,L,mode);
+  if(ty==='cmp') return genCompare(topic,L);
+  return W[pick(t==='mix'?WORDS.mix:WORDS[topic])](mode);
+}
+function genSet(t,L,mode,n=8){
+  const out=[], keys=new Set();
+  for(let k=0;out.length<n&&k<200;k++){const q=genQ(t,L,mode); if(!q||keys.has(q.key)) continue; keys.add(q.key); out.push(q)}
+  return out;
+}
+
+/* ================= phiếu bài tập 02/10 ================= */
+function sheet(part){
+  const mc=(text,opts,correct,explain,topic='area')=>({kind:'mcq',topic,text,opts,correct,explain});
+  const fill=(parts,ans,explain,topic)=>({kind:'fill',topic,text:'Điền số thích hợp vào chỗ trống:',parts,ans,explain});
+  if(part===1) return [
+    mc(`Số thích hợp điền vào chỗ trống: 4 km² 50${NS}000 m² = …… ha`,['450',`4${frac(5,10)}`,'405','45'],2,
+      `4 km² = 400 ha (vì 1 km² = 100 ha).<br>50${NS}000 m² = 5 ha (vì 1 ha = 10${NS}000 m²).<br>→ 400 + 5 = <b>405 ha</b>`),
+    mc(`Viết số đo 5${NS}000 m² dưới dạng số đo có đơn vị là ha:`,['50 ha','5 ha','0,5 ha','0,05 ha'],2,
+      `1 ha = 10${NS}000 m² → 5${NS}000 m² = 5${NS}000 : 10${NS}000 = <b>0,5 ha</b>.<div class="tip">Bẫy hay gặp: chọn 0,05 ha là nhầm. Từ m² lên ha cách 2 bậc diện tích, mỗi bậc 2 chữ số → dời dấu phẩy sang trái <b>4</b> chữ số: 5000 → 0,5.</div>`),
+    mc(`Một khu đất hình vuông có chu vi là 16 km. Vậy diện tích của khu đất đó là …… km²`,['4 km²','16 km²','24 km²','64 km²'],1,
+      `Cạnh = 16 : 4 = 4 km.<br>Diện tích = 4 × 4 = <b>16 km²</b>`),
+    mc(`Minh có một số cái kẹo. Minh chia cho các bạn ${frac(4,5)} số kẹo đó thì còn lại 4 cái. Hỏi lúc đầu Minh có mấy cái kẹo?`,['5 cái kẹo','15 cái kẹo','20 cái kẹo','25 cái kẹo'],2,
+      `Còn lại 1 - ${frac(4,5)} = ${frac(1,5)} số kẹo, ứng với 4 cái.<br>Lúc đầu: 4 × 5 = <b>20 cái kẹo</b>`,'mix'),
+    {kind:'mcq',topic:'area',cmp:true,text:`Dấu thích hợp điền vào chỗ trống:<div class="cmp"><span>6 ha 45 m²</span><span class="box">?</span><span>60${NS}450 m²</span></div>`,opts:['<','>','=','Không so sánh được'],correct:0,
+      explain:`6 ha = 60${NS}000 m² → 6 ha 45 m² = 60${NS}045 m².<br>60${NS}045 < 60${NS}450 → <b>dấu &lt;</b><div class="tip">45 m² chỉ có 2 chữ số, khi ghép phải là 60 0<b>45</b>, không phải 60 <b>45</b>0.</div>`},
+    mc(`Một khu đất hình chữ nhật có chiều dài ${frac(4,5)} km, chiều rộng ${frac(1,2)} km. Diện tích khu đất đó là bao nhiêu héc-ta?`,['40 ha','20 ha','30 ha','50 ha'],0,
+      `Diện tích = ${frac(4,5)} × ${frac(1,2)} = ${frac(4,10)} km² = 0,4 km².<br>1 km² = 100 ha → 0,4 × 100 = <b>40 ha</b>`)
+  ];
+  return [
+    fill(['2 m 5 cm = ',0,' m'],[A(205,2)],`5 cm = 0,05 m → 2 m 5 cm = <b>2,05 m</b>`,'len'),
+    fill(['15 m 5 mm = ',0,' m'],[A(15005,3)],`5 mm = 0,005 m → 15 m 5 mm = <b>15,005 m</b>`,'len'),
+    fill(['105 km 10 m = ',0,' m'],[A(105010,0)],`105 km = 105${NS}000 m → 105${NS}000 + 10 = <b>105${NS}010 m</b>`,'len'),
+    fill(['0,1 cm = ',0,' mm'],[A(1,0)],`1 cm = 10 mm → 0,1 × 10 = <b>1 mm</b>`,'len'),
+    fill(['7304 m = ',0,' km ',1,' m'],[A(7,0),A(304,0)],`1 km = 1${NS}000 m → 7304 m = 7000 m + 304 m = <b>7 km 304 m</b>`,'len'),
+    fill(['36 dm = ',0,' m'],[A(36,1)],`1 m = 10 dm → 36 : 10 = <b>3,6 m</b>`,'len'),
+    fill(['2 tạ 105 kg = ',0,' kg'],[A(305,0)],`2 tạ = 200 kg → 200 + 105 = <b>305 kg</b><div class="tip">Không ghép chữ số thành 2105. 105 kg nhiều hơn 1 tạ nên phải cộng.</div>`,'mass'),
+    fill(['0,12 kg = ',0,' g'],[A(120,0)],`1 kg = 1${NS}000 g → 0,12 × 1000 = <b>120 g</b>`,'mass'),
+    fill(['3 kg 200 g = ',0,' kg'],[A(32,1)],`200 g = 0,2 kg → <b>3,2 kg</b>`,'mass'),
+    fill(['1,5 yến = ',0,' kg'],[A(15,0)],`1 yến = 10 kg → 1,5 × 10 = <b>15 kg</b>`,'mass'),
+    fill(['1 tạ 12 yến = ',0,' yến'],[A(22,0)],`1 tạ = 10 yến → 10 + 12 = <b>22 yến</b>`,'mass'),
+    fill(['9050 kg = ',0,' tấn'],[A(905,2)],`1 tấn = 1${NS}000 kg → 9050 : 1000 = <b>9,05 tấn</b>`,'mass')
+  ];
+}
+
+/* ================= lưu trữ ================= */
+const KEY='sieu-doi-don-vi-v1';
+let DB={xu:0,best:{},wrong:[]};
+try{const s=JSON.parse(localStorage.getItem(KEY)); if(s) DB={...DB,...s}}catch(e){}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(DB))}catch(e){} document.getElementById('coin').textContent=DB.xu}
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),1800)}
+function toggleTheme(){
+  const r=document.documentElement, cur=r.dataset.theme||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');
+  r.dataset.theme=cur==='dark'?'light':'dark'; try{localStorage.setItem(KEY+'-theme',r.dataset.theme)}catch(e){}
+}
+try{const th=localStorage.getItem(KEY+'-theme'); if(th) document.documentElement.dataset.theme=th}catch(e){}
+
+/* ================= điều hướng ================= */
+const app=document.getElementById('app');
+let S={}; // trạng thái bài làm
+function go(view,arg){window.scrollTo(0,0); VIEWS[view](arg); }
+const VIEWS={
+  home(){
+    const nW=DB.wrong.length;
+    app.innerHTML=`
+      <h1>Chào bạn nhỏ! 👋</h1>
+      <p class="muted">Học cách đổi đơn vị đo độ dài, khối lượng, diện tích rồi làm bài 8 câu để kiếm xu nhé.</p>
+      <div class="grid" style="margin-top:14px">
+        <button class="big" onclick="go('learn','len')"><span class="ic" style="background:var(--pri-soft)">📚</span><span><b>Học bài</b><small>Bậc thang đơn vị, bảng đơn vị, mẹo dời dấu phẩy</small></span></button>
+        <button class="big" onclick="go('setup')"><span class="ic" style="background:var(--sun-soft)">🎯</span><span><b>Làm bài</b><small>Mỗi bài 8 câu, nộp bài mới biết đúng sai</small></span></button>
+        <button class="big" onclick="startSheet(1)"><span class="ic" style="background:var(--ok-soft)">📝</span><span><b>Phiếu 02/10 - Trắc nghiệm</b><small>6 câu trắc nghiệm của phiếu bài tập trên lớp</small></span></button>
+        <button class="big" onclick="startSheet(2)"><span class="ic" style="background:var(--ok-soft)">✏️</span><span><b>Phiếu 02/10 - Tự luận</b><small>Bài 1 + Bài 2: điền số vào chỗ trống</small></span></button>
+        <button class="big" onclick="startWrong()" ${nW?'':'disabled style="opacity:.5"'}><span class="ic" style="background:var(--bad-soft)">🔁</span><span><b>Ôn câu sai</b><small>${nW?`Có ${nW} câu đã làm sai đang chờ bạn`:'Chưa có câu sai nào. Giỏi quá!'}</small></span></button>
+      </div>
+      <footer>Toán lớp 5 · Đổi đơn vị đo · Tiến độ lưu trên máy này</footer>`;
+  },
+  learn(tab){ renderLearn(tab||'len') },
+  setup(){
+    S.cfg=S.cfg||{t:'len',L:1,mode:'mcq'};
+    const c=S.cfg;
+    const chip=(g,v,label)=>`<button class="chip ${c[g]===v?'on':''}" onclick="S.cfg.${g}=${typeof v==='string'?`'${v}'`:v};go('setup')">${label}</button>`;
+    const stars=(t,L)=>{const b=DB.best[t+'-'+L]; return b?'⭐'.repeat(b):''};
+    app.innerHTML=`
+      <h1>Làm bài 🎯</h1>
+      <p class="muted">Mỗi bài 8 câu. Làm hết rồi bấm <b>Nộp bài</b> để xem kết quả và cách giải.</p>
+      <div class="card">
+        <h3>Chủ đề</h3>
+        <div class="chips">${chip('t','len','📏 Độ dài')}${chip('t','mass','⚖️ Khối lượng')}${chip('t','area','🟩 Diện tích')}${chip('t','mix','🎲 Trộn cả ba')}</div>
+        <h3>Mức độ</h3>
+        <div class="chips">${[1,2,3].map(L=>chip('L',L,`${LEVELS[L]} ${stars(c.t,L)}`)).join('')}</div>
+        <p class="muted" style="font-size:15px">${c.L===1?'Đổi giữa hai đơn vị, số dễ.':c.L===2?'Thêm đơn vị kép (2 m 5 cm), so sánh, bài toán có lời văn.':'Số lớn hơn, nhiều so sánh và bài toán có lời văn.'}</p>
+        <h3>Kiểu câu</h3>
+        <div class="chips">${chip('mode','mcq','Trắc nghiệm A B C D')}${chip('mode','fill','Điền số')}${chip('mode','both','Trộn')}</div>
+        <div class="row" style="margin-top:16px"><button class="btn" onclick="startQuiz()">Bắt đầu bài 8 câu ▶</button></div>
+      </div>`;
+  },
+  quiz(){ renderQuiz() },
+  result(){ renderResult() }
+};
+
+/* ================= màn học ================= */
+const LESSON={
+  len:{intro:`Mỗi đơn vị đo độ dài gấp <b>10 lần</b> đơn vị bé hơn liền sau nó, và bằng ${frac(1,10)} (= 0,1) đơn vị lớn hơn liền trước nó.`,
+    ex:[['2 m 5 cm = ? m','5 cm = 0,05 m → 2,05 m'],['15 m 5 mm = ? m','5 mm = 0,005 m → 15,005 m'],['7304 m = ? km ? m','7 km 304 m'],['36 dm = ? m','Chia 10, dời dấu phẩy sang trái 1 chữ số → 3,6 m']]},
+  mass:{intro:`Mỗi đơn vị đo khối lượng cũng gấp <b>10 lần</b> đơn vị bé hơn liền sau. Nhớ thứ tự: <b>tấn - tạ - yến - kg - hg - dag - g</b>. 1 tấn = 10 tạ = 100 yến = 1000 kg.`,
+    ex:[['2 tạ 105 kg = ? kg','200 kg + 105 kg = 305 kg'],['3 kg 200 g = ? kg','200 g = 0,2 kg → 3,2 kg'],['1,5 yến = ? kg','× 10 → 15 kg'],['9050 kg = ? tấn',': 1000 → 9,05 tấn'],['1 tạ 12 yến = ? yến','10 yến + 12 yến = 22 yến']]},
+  area:{intro:`Mỗi đơn vị đo diện tích gấp <b>100 lần</b> đơn vị bé hơn liền sau, nên mỗi đơn vị ứng với <b>2 chữ số</b>. Héc-ta: <b>1 ha = 1 hm² = 10${NS}000 m²</b>, và <b>1 km² = 100 ha</b>.`,
+    ex:[['5 000 m² = ? ha','Dời dấu phẩy sang trái 4 chữ số → 0,5 ha'],['4 km² 50 000 m² = ? ha','400 ha + 5 ha = 405 ha'],['6 ha 45 m² = ? m²','60 000 + 45 = 60 045 m²'],[`${frac(4,5)} km × ${frac(1,2)} km = ? ha`,`${frac(4,10)} km² = 40 ha`]]}
+};
+let LAD={a:null,b:null};
+function renderLearn(tab){
+  const tabs=[['len','📏 Độ dài'],['mass','⚖️ Khối lượng'],['area','🟩 Diện tích'],['tips','💡 Mẹo & bẫy']];
+  let body='';
+  if(tab==='tips') body=`
+    <div class="card"><h3>3 quy tắc vàng</h3>
+      <p>1️⃣ Đổi từ <b>đơn vị lớn ra đơn vị bé</b> → <b>nhân</b>, dời dấu phẩy sang <b>phải</b>.</p>
+      <p>2️⃣ Đổi từ <b>đơn vị bé ra đơn vị lớn</b> → <b>chia</b>, dời dấu phẩy sang <b>trái</b>.</p>
+      <p>3️⃣ Mỗi bậc: độ dài, khối lượng dời <b>1 chữ số</b>; diện tích dời <b>2 chữ số</b>. Thiếu chữ số thì viết thêm <b>0</b>.</p>
+    </div>
+    <div class="card"><h3>Đơn vị kép (2 m 5 cm, 6 ha 45 m²)</h3>
+      <p>Đổi <b>từng phần</b> về đơn vị cần tìm rồi <b>cộng</b> lại. Không ghép chữ số liền nhau.</p>
+      <p>So sánh hai số đo: đổi cả hai về <b>cùng một đơn vị</b> rồi mới so sánh.</p>
+    </div>
+    <div class="card"><h3>Bẫy hay gặp</h3>
+      ${[['5 000 m² = 0,05 ha','5 000 m² = 0,5 ha'],['2 tạ 105 kg = 2105 kg','2 tạ 105 kg = 305 kg'],['6 ha 45 m² = 60 450 m²','6 ha 45 m² = 60 045 m²'],['2 m 5 cm = 2,5 m','2 m 5 cm = 2,05 m'],['3 kg 200 g = 32 kg','3 kg 200 g = 3,2 kg']].map(([n,y])=>`<div class="trap"><div class="no">❌ ${n}</div><div class="yes">✅ ${y}</div></div>`).join('')}
+    </div>
+    <div class="row"><button class="btn" onclick="S.cfg={t:'mix',L:2,mode:'mcq'};go('setup')">Làm bài ngay ▶</button></div>`;
+  else{
+    const Ls=LESSON[tab];
+    body=`
+      <div class="card"><p>${Ls.intro}</p></div>
+      <div class="card"><h3>🪜 Bậc thang đơn vị</h3>
+        <p class="muted" style="font-size:15px">Chạm vào 2 đơn vị để xem đổi thế nào.</p>
+        <div class="ladder" id="ladder"></div>
+        <div class="ladout" id="ladout">Chọn đơn vị thứ nhất…</div>
+      </div>
+      <div class="card"><h3>🧮 Máy đổi và bảng đơn vị</h3>
+        <div class="row">
+          <input class="num" id="mIn" inputmode="decimal" value="${tab==='len'?'2,05':tab==='mass'?'9050':'5000'}">
+          <select id="mFrom">${T[tab].units.map((u,i)=>`<option value="${i}" ${i===(tab==='area'?3:3)?'selected':''}>${u}</option>`).join('')}</select>
+          <span>→</span>
+          <select id="mTo">${T[tab].units.map((u,i)=>`<option value="${i}" ${i===(tab==='len'?5:tab==='mass'?0:1)?'selected':''}>${u}</option>`).join('')}</select>
+        </div>
+        <div id="mOut"></div>
+      </div>
+      <div class="card"><h3>📌 Ví dụ trong phiếu bài tập</h3>
+        ${Ls.ex.map(([q,s])=>`<div class="ex"><div class="q">${q}</div><div class="s">${s}</div></div>`).join('')}
+      </div>
+      <div class="row"><button class="btn" onclick="S.cfg={t:'${tab}',L:1,mode:'mcq'};go('setup')">Luyện ${T[tab].name.toLowerCase()} ▶</button></div>`;
+  }
+  app.innerHTML=`<h1>Học bài 📚</h1><div class="tabs">${tabs.map(([k,l])=>`<button class="tab ${k===tab?'on':''}" onclick="go('learn','${k}')">${l}</button>`).join('')}</div>${body}`;
+  if(tab!=='tips'){ LAD={a:null,b:null,t:tab}; drawLadder(); ['mIn','mFrom','mTo'].forEach(id=>document.getElementById(id).addEventListener('input',()=>machine(tab))); machine(tab); }
+}
+function drawLadder(){
+  const t=LAD.t, el=document.getElementById('ladder'); if(!el) return;
+  const lo=Math.min(LAD.a??-1,LAD.b??-1), hi=Math.max(LAD.a??-1,LAD.b??-1), both=LAD.a!=null&&LAD.b!=null;
+  el.innerHTML=T[t].units.map((u,i)=>{
+    const cls=(i===LAD.a||i===LAD.b)?'sel':(both&&i>lo&&i<hi)?'mid':'';
+    const x=i<6?`<span class="lx ${both&&i>=lo&&i<hi?'mid':''}">×${stepWord(t)}</span>`:'';
+    return `<button class="lu ${cls}" onclick="ladTap(${i})">${u}</button>${x}`;
+  }).join('');
+  const out=document.getElementById('ladout');
+  if(LAD.a==null) out.innerHTML='Chọn đơn vị thứ nhất…';
+  else if(LAD.b==null) out.innerHTML=`Đã chọn <b>${U(t,LAD.a)}</b>. Chọn đơn vị thứ hai…`;
+  else{
+    const i=LAD.a,j=LAD.b,k=Math.abs(E(t,i)-E(t,j)),steps=Math.abs(i-j);
+    const big=Math.min(i,j), small=Math.max(i,j);
+    out.innerHTML=`<b>1 ${U(t,big)} = ${fmtNum(P10(k),0)} ${U(t,small)}</b> &nbsp;·&nbsp; <b>1 ${U(t,small)} = ${fmtNum(1n,k)} ${U(t,big)}</b><br>Cách ${steps} bậc → dời dấu phẩy ${k} chữ số (lớn → bé: sang phải; bé → lớn: sang trái).`;
+  }
+}
+function ladTap(i){ if(LAD.a==null||LAD.b!=null){LAD.a=i;LAD.b=null} else if(i!==LAD.a) LAD.b=i; drawLadder() }
+function machine(t){
+  const out=document.getElementById('mOut'); const p=parseAns(document.getElementById('mIn').value)[0];
+  const i=+document.getElementById('mFrom').value, j=+document.getElementById('mTo').value;
+  if(!p){out.innerHTML='<p class="muted">Gõ một số, ví dụ 2,05</p>';return}
+  const ei=E(t,i), ej=E(t,j);
+  const valIn=fmtNum(p.n,p.d), res=fmtNum(p.n,p.d-ei+ej);
+  let html=`<p style="font-size:22px;font-weight:800;margin-top:10px">${valIn} ${U(t,i)} = <span style="color:var(--pri)">${res}</span> ${U(t,j)}</p>`;
+  if(i!==j) html+=`<p class="muted" style="font-size:16px">${explainConv(t,i,j,valIn,res).split('<br>').slice(1,3).join('<br>')}</p>`;
+  // bảng đơn vị: cần số nguyên ở đơn vị bé nhất
+  if(p.d<=ei){
+    const base=p.n*P10(ei-p.d), w=T[t].w;
+    let s=base.toString(); const need=7*w; if(s.length<need) s=s.padStart(need,'0');
+    const cells=[]; const first=s.length-6*w; cells.push(s.slice(0,first)); for(let c=0;c<6;c++) cells.push(s.slice(first+c*w,first+(c+1)*w));
+    // vị trí chữ số khác 0 đầu/cuối
+    const nzFirst=cells.findIndex(c=>/[1-9]/.test(c)); let nzLast=-1; cells.forEach((c,k)=>{if(/[1-9]/.test(c)) nzLast=k});
+    const firstShown=Math.min(nzFirst<0?99:nzFirst,j);
+    html+=`<table class="utab"><tr>${T[t].units.map((u,k)=>`<th class="${k===j?'tg':''}">${u}</th>`).join('')}</tr><tr>${cells.map((c,k)=>{
+      let shown='';
+      const lead = k<Math.min(nzFirst<0?99:nzFirst,j), trail = k>Math.max(nzLast,j,i);
+      if(!lead&&!trail){
+        shown=c.split('').map((ch,ci)=>{
+          // bỏ số 0 ở đầu ô đầu tiên có nghĩa
+          return (ch==='0'?`<span class="z">0</span>`:ch);
+        }).join('');
+        if(k===firstShown){ const st=c.replace(/^0+(?=\d)/,''); shown=st.split('').map(ch=>ch==='0'?`<span class="z">0</span>`:ch).join(''); }
+      }
+      return `<td>${shown}${k===j&&k<Math.max(nzLast,j,i)?'<span class="cm">,</span>':''}</td>`;
+    }).join('')}</tr></table><p class="muted" style="font-size:14px">Mỗi ô ${w===2?'chứa 2 chữ số':'chứa 1 chữ số'}. Dấu phẩy đỏ đặt ngay sau ô đơn vị cần đổi. Số <span style="color:var(--sun);font-weight:700">0</span> màu vàng là chữ số 0 (có thể là số 0 phải viết thêm).</p>`;
+  }
+  out.innerHTML=html;
+}
+
+/* ================= làm bài ================= */
+function startQuiz(){const c=S.cfg; S={cfg:c,qs:genSet(c.t,c.L,c.mode,8),title:`${c.t==='mix'?'Trộn':T[c.t].name} · ${LEVELS[c.L]}`,src:'gen',idx:0,ans:[],done:false}; go('quiz')}
+function startSheet(p){S={cfg:S.cfg,qs:sheet(p),title:p===1?'Phiếu 02/10 · Trắc nghiệm':'Phiếu 02/10 · Tự luận',src:'sheet'+p,idx:0,ans:[],done:false}; go('quiz')}
+function startWrong(){
+  if(!DB.wrong.length) return;
+  const qs=shuffle(DB.wrong).slice(0,8);
+  S={cfg:S.cfg,qs,title:'Ôn câu sai',src:'wrong',idx:0,ans:[],done:false}; go('quiz');
+}
+function answered(k){const q=S.qs[k], a=S.ans[k]; if(a==null) return false; return q.kind==='mcq'?true:a.every(x=>String(x||'').trim()!=='')}
+function isRight(k){const q=S.qs[k],a=S.ans[k]; if(a==null) return false; return q.kind==='mcq'?a===q.correct:q.ans.every((x,i)=>checkFill(a[i],x))}
+function topicTag(q){const t=q.topic==='mix'?{name:'Toán có lời văn',color:'var(--sun)'}:T[q.topic]; return `<span class="tag" style="background:${t.color}">${t.name}</span>`}
+function qHTML(k,review){
+  const q=S.qs[k], a=S.ans[k];
+  let h=`<div class="qno">Câu ${k+1} ${topicTag(q)}</div>`;
+  if(q.kind==='mcq'){
+    h+=`<div class="qtext">${q.text}</div><div class="opts ${q.opts.some(o=>o.length>12)?'long':''}">`+q.opts.map((o,i)=>{
+      let cls='';
+      if(review){ if(i===q.correct) cls='right'; else if(i===a) cls='wrong'; }
+      else if(i===a) cls='sel';
+      return `<button class="opt ${cls}" ${review?'disabled':''} onclick="choose(${k},${i})"><span class="L">${'ABCD'[i]}</span><span>${o}</span></button>`;
+    }).join('')+`</div>`;
+  } else {
+    h+=`<div class="qtext" style="font-size:17px;color:var(--muted)">${q.text}</div><div class="fillline">`+q.parts.map(p=>{
+      if(typeof p==='string') return p;
+      const v=a?.[p]??''; let cls='';
+      if(review) cls=checkFill(v,q.ans[p])?'right':'wrong';
+      return `<input class="num ${q.parts.filter(x=>typeof x==='number').length>1?'sm':''} ${cls}" inputmode="decimal" autocomplete="off" data-k="${k}" data-i="${p}" value="${String(v).replace(/"/g,'')}" ${review?'disabled':''} oninput="typeAns(this)">`;
+    }).join('')+`</div>`;
+  }
+  if(review){
+    const ok=isRight(k);
+    let v=`<div class="verdict ${ok?'ok':'bad'}">${ok?'✅ Đúng rồi!':'❌ Chưa đúng.'}`;
+    if(!ok){
+      if(q.kind==='mcq') v+= a==null?' Bạn chưa chọn đáp án.':'';
+      v+=` Đáp án đúng: <b>${q.kind==='mcq'?'ABCD'[q.correct]+'. '+q.opts[q.correct]:q.parts.map(p=>typeof p==='string'?p:showAns(q.ans[p])).join('')}</b>`;
+    }
+    v+=`</div><div class="explain">💡 <b>Cách làm:</b><br>${q.explain}</div>`;
+    h+=v;
+  }
+  return h;
+}
+function renderQuiz(){
+  const n=S.qs.length, k=S.idx;
+  const doneCount=S.qs.filter((_,i)=>answered(i)).length;
+  app.innerHTML=`<div id="quizArea">
+    <div class="row" style="justify-content:space-between"><h1 style="font-size:22px">${S.title}</h1><button class="btn ghost" onclick="if(confirm('Thoát bài đang làm?'))go('home')">Thoát</button></div>
+    <div class="qhead"><div class="dots">${S.qs.map((_,i)=>`<button class="dot ${i===k?'cur':answered(i)?'done':''}" onclick="S.idx=${i};renderQuiz()">${i+1}</button>`).join('')}</div></div>
+    <div class="qcard">${qHTML(k,false)}</div>
+    <div class="navq">
+      <button class="btn ghost" ${k===0?'disabled':''} onclick="S.idx--;renderQuiz()">◀ Câu trước</button>
+      ${k<n-1?`<button class="btn" onclick="S.idx++;renderQuiz()">Câu sau ▶</button>`:`<button class="btn sun" onclick="submitQuiz()">Nộp bài (${doneCount}/${n})</button>`}
+    </div>
+    ${k<n-1?`<div class="row" style="justify-content:center;margin-top:14px"><button class="btn sun" onclick="submitQuiz()">Nộp bài (${doneCount}/${n})</button></div>`:''}</div>`;
+  const inp=app.querySelector('input.num'); if(inp&&!('ontouchstart' in window)) inp.focus();
+  app.querySelectorAll('input.num').forEach(el=>el.addEventListener('keydown',e=>{if(e.key==='Enter'){ if(S.idx<n-1){S.idx++;renderQuiz()} }}));
+}
+function choose(k,i){S.ans[k]=i; setTimeout(()=>{ if(S.idx<S.qs.length-1){S.idx++} renderQuiz() },180); renderQuiz()}
+function typeAns(el){const k=+el.dataset.k,i=+el.dataset.i; S.ans[k]=S.ans[k]||[]; S.ans[k][i]=el.value;
+  const doneCount=S.qs.filter((_,j)=>answered(j)).length;
+  app.querySelectorAll('.btn.sun').forEach(b=>b.textContent=`Nộp bài (${doneCount}/${S.qs.length})`);
+  app.querySelectorAll('.dot')[k].classList.toggle('done',answered(k));
+}
+function submitQuiz(){
+  const n=S.qs.length, miss=S.qs.filter((_,i)=>!answered(i)).length;
+  if(miss&&!confirm(`Còn ${miss} câu chưa làm. Vẫn nộp bài?`)) return;
+  S.done=true;
+  const right=S.qs.filter((_,i)=>isRight(i)).length;
+  S.score=right;
+  const stars=right===n?3:right>=n*0.75?2:right>=n/2?1:0;
+  S.stars=stars;
+  const earned=right*10+(right===n?20:0);
+  DB.xu+=earned; S.earned=earned;
+  if(S.src==='gen'){const key=S.cfg.t+'-'+S.cfg.L; DB.best[key]=Math.max(DB.best[key]||0,stars)}
+  // sổ câu sai: thêm câu sai, bỏ câu đã làm đúng
+  const keyOf=q=>q.text+JSON.stringify(q.parts||'')+JSON.stringify(q.opts||'');
+  S.qs.forEach((q,i)=>{
+    const kq=keyOf(q);
+    DB.wrong=DB.wrong.filter(w=>keyOf(w)!==kq);
+    if(!isRight(i)) DB.wrong.push(q);
+  });
+  DB.wrong=DB.wrong.slice(-40);
+  save(); go('result');
+  if(right===n) confetti();
+}
+function renderResult(){
+  const n=S.qs.length, r=S.score;
+  const msg=r===n?'Xuất sắc! Đúng hết cả bài! 🏆':r>=n*0.75?'Giỏi lắm! Xem lại mấy câu đỏ nhé.':r>=n/2?'Khá rồi! Đọc kỹ cách làm ở các câu đỏ.':'Cố lên! Ôn lại phần Học bài rồi làm lại nhé.';
+  app.innerHTML=`
+    <div class="card score">
+      <div class="muted">${S.title}</div>
+      <div class="n" style="color:${r>=n/2?'var(--ok)':'var(--bad)'}">${r}/${n}</div>
+      <div class="stars">${'⭐'.repeat(S.stars)}${'☆'.repeat(3-S.stars)}</div>
+      <p style="font-weight:700">${msg}</p>
+      <p class="muted">+${S.earned} xu 🪙</p>
+      <div class="row" style="justify-content:center;margin-top:10px">
+        ${S.src==='gen'?`<button class="btn" onclick="startQuiz()">Bài mới 8 câu ▶</button>`:''}
+        ${S.src.startsWith('sheet')?`<button class="btn" onclick="startSheet(${S.src.slice(-1)})">Làm lại phiếu</button>`:''}
+        ${r<n?`<button class="btn sun" onclick="retryWrong()">Làm lại câu sai</button>`:''}
+        <button class="btn ghost" onclick="go('home')">Về trang chủ</button>
+      </div>
+    </div>
+    <div class="dots" style="justify-content:center">${S.qs.map((_,i)=>`<a class="dot ${isRight(i)?'ok':'bad'}" style="display:grid;place-items:center;text-decoration:none" href="#q${i}">${i+1}</a>`).join('')}</div>
+    <h2>Xem lại từng câu</h2>
+    <div class="review">${S.qs.map((_,i)=>`<div class="qcard ${isRight(i)?'ok':'bad'}" id="q${i}">${qHTML(i,true)}</div>`).join('')}</div>
+    <div class="row" style="justify-content:center">${S.src==='gen'?`<button class="btn" onclick="startQuiz()">Bài mới 8 câu ▶</button>`:''}<button class="btn ghost" onclick="go('home')">Về trang chủ</button></div>`;
+}
+function retryWrong(){const qs=S.qs.filter((_,i)=>!isRight(i)); S={cfg:S.cfg,qs,title:'Làm lại câu sai',src:'retry',idx:0,ans:[],done:false}; go('quiz')}
+function confetti(){for(let i=0;i<36;i++){const s=document.createElement('div');s.className='confetti';s.textContent=pick(['🎉','⭐','🪙','✨','🎈']);s.style.left=Math.random()*100+'vw';s.style.animationDelay=Math.random()*.8+'s';document.body.appendChild(s);setTimeout(()=>s.remove(),3400)}}
+
+/* ================= phiên bản mới ================= */
+async function checkVersion(){
+  if(APP_VERSION==='dev') return;
+  try{const r=await fetch('version.json?t='+Date.now(),{cache:'no-store'}); const j=await r.json(); if(j.v&&j.v!==APP_VERSION) document.getElementById('pill').style.display='block'}catch(e){}
+}
+setInterval(checkVersion,60000); document.addEventListener('visibilitychange',()=>{if(!document.hidden) checkVersion()});
+
+save(); go('home');
+</script>
+</body>
+</html>
