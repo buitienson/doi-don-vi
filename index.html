@@ -129,7 +129,7 @@ input.num.wrong{border-color:var(--bad);background:var(--bad-soft)}
 .stars{font-size:40px;letter-spacing:4px}
 .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;font-size:.72em;line-height:1.05;margin:0 2px}
 .fr span:first-child{border-bottom:2px solid currentColor;padding:0 2px}
-.pill{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:50;background:var(--sun);color:#3a2600;border:0;font:inherit;font-weight:800;font-size:20px;padding:16px 26px;border-radius:999px;box-shadow:0 10px 30px rgba(0,0,0,.3);cursor:pointer;display:none}
+.pill{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:99990;background:var(--sun);color:#3a2600;border:0;font:inherit;font-weight:800;font-size:20px;padding:16px 26px;border-radius:999px;box-shadow:0 0 0 100vmax rgba(5,8,15,.72),0 10px 30px rgba(0,0,0,.3);cursor:pointer;display:none}
 .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:8px 16px;border-radius:12px;font-weight:700;opacity:0;transition:opacity .3s;pointer-events:none;z-index:40}
 .toast.on{opacity:1}
 .confetti{position:fixed;top:-40px;font-size:28px;pointer-events:none;z-index:60;animation:fall 2.4s linear forwards}
@@ -167,7 +167,7 @@ footer{text-align:center;color:var(--muted);font-size:14px;margin-top:30px}
 <div class="toast" id="toast"></div>
 
 <script>
-const APP_VERSION = "20261003-222703";
+const APP_VERSION = "20261005-075801";
 
 /* ================= tiện ích số ================= */
 const rint=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
